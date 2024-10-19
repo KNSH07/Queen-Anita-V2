@@ -1,0 +1,49 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+[ HD IMAGE SAZUMI ]
+
+/*
++ Requestan dari shiro
++ Dev Shannz
++ Saluran : https://whatsapp.com/channel/0029VagBdZ49MF92BygaM53t
++ Group : https://chat.whatsapp.com/BX1cGsUc91NBm9YcD9o9ls
+*/
+
+const axios = require("axios");
+const fs = require("fs");
+const FormData = require("form-data");
+
+async function hdSazumi(path) {
+  const form = new FormData();
+
+  const fileStream = fs.createReadStream(path);
+  form.append("fileInput", fileStream); 
+
+  try {
+    const response = await axios.post("https://hd.sazumi.moe/upload", form, {
+      headers: {
+        ...form.getHeaders(),
+        'x-internal-request': 'true' 
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    return error.message; 
+  }
+}
+
+// Contoh penggunaan
+const filePath = 'image.jpg';
+hdSazumi(filePath)
+  .then(data => console.log('Upload Response:', data))
+  .catch(err => console.error('Error:', err));
+
+
+// Contoh Respon 
+{
+  message: 'Success',
+  url: '/tmp/hdr-1728822315039.jpg',
+  fileId: 'hdr-1728822315039.jpg'
+}
